@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from .models import *
 from django.http import JsonResponse
+from .utils import cartData, guestOrder
+from store.forms import UserRegisterForm
+
 import json
 def store(request) :
     if request.user.is_authenticated :
@@ -102,5 +105,30 @@ def viewProduct(request):
 
     return JsonResponse("product",safe=False)
     
+def register(request):
+    data = cartData(request)    
+    cartItems = data['cartItems']
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            myuser = form.save()
+            username = form.cleaned_data.get('username')
+            Customer.objects.create(user = myuser, name = form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name'),email = form.cleaned_data.get('email'))
+            return redirect('login')
+    else:
+        form = UserRegisterForm()
+        return render(request, 'store/register.html', {'form': form})
 
+def search(request):
+    data = cartData(request)
+    cartItems = data['cartItems']
+    if request.method == "POST":
+        searched = request.POST.get('searched')
 
+        if  searched :
+            product = Product.objects.filter(name__contains=searched)
+            return render(request,'store/search.html',{'searched' : searched,'products':product, 'cartItems':cartItems})
+        else:
+            return render(request,'store/search.html',{'searched' : searched,})
+    else:
+        return render(request,'store/search.html',{})
