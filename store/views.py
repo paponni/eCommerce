@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import *
 from django.http import JsonResponse
 from .utils import cartData, guestOrder
@@ -117,7 +117,7 @@ def register(request):
             return redirect('login')
     else:
         form = UserRegisterForm()
-        return render(request, 'store/register.html', {'form': form})
+    return render(request, 'store/register.html', {'form': form})
 
 def search(request):
     data = cartData(request)
