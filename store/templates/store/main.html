@@ -43,12 +43,28 @@ const csrftoken = getCookie('csrftoken');
             <li class="nav-item active">
               <a class="nav-link navbar-brand" href="{% url 'store' %}">Store</a>
             </li>
-            
+            <li>
+            <form action="{% url 'search' %}" method="POST" >
+              {% csrf_token %}
+               <input type="text" name="searched"
+              value="{{request.POST.searched}}"
+              placeholder="Search product">
+              <input type="submit"
+              name="submit"
+              value="Search">
+            </form>
+          </li>
             
           </ul>
           <div class="form-inline my-2 my-lg-0">
-                  <a href="#"class="btn btn-warning">Login</a>
-                    
+
+         {% if user.is_authenticated %}
+                  <a class="btn btn-warning" href="{% url 'logout' %}">Logout</a>
+                  
+                  {% else %} 
+                  
+                  <a class="btn btn-warning" href="{% url 'login' %}">login</a>
+                  {% endif %} 
                    <a href="{% url 'cart' %}" data-product="{{product.id}}">
                      <img  id="cart-icon" src="{% static 'images/6+cart.png' %}">
                    </a>
@@ -58,8 +74,8 @@ const csrftoken = getCookie('csrftoken');
 
         </div>
       </nav>
-    
-
+      
+      
     <div class="container">
 
         {% block content %}
@@ -67,7 +83,7 @@ const csrftoken = getCookie('csrftoken');
         {% endblock content %}
     </div>
     
-
+    
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 

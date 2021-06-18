@@ -1,0 +1,72 @@
+{% extends "store/main.html" %}
+{% load static %}
+{% block content %}
+{%    if searched %}
+<h1>you searched for : {{   searched  }} 
+    {% if not products%}  (no results were found) {% endif %}
+
+
+</h1>
+
+{% else %}
+
+<h3>you forgot to search
+
+
+</h3>
+{% endif %}
+
+
+{%  if products %}
+
+<main>
+    <div class="container">
+
+      <!--Navbar-->
+      <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
+
+        <!-- Navbar brand -->
+      
+
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+          aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible content -->
+        
+
+      </nav>
+      <!--/.Navbar-->
+
+      <!--Section: Products v.3-->
+     <div class="row">
+    {% for product in products %}
+    <div class="col-lg-4">
+      <img class="thumbnail" src="{{product.imageURL}}">
+      <div class="box-element product">
+        <h6><strong>{{product.name}}</strong></h6>
+        <hr>
+
+        <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+        
+        <a class="btn btn-outline-success" href="#">View</a>
+        <h4 style="display: inline-block; float: right"><strong>${{product.price}}</strong></h4>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+      <!--Section: Products v.3-->
+
+      <!--Pagination-->
+
+      
+
+    </div>
+  </main>
+{% endif %}
+
+
+{% endblock content %}
