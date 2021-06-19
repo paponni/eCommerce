@@ -96,14 +96,11 @@ def processOrder(request):
 def viewProduct(request):
     data= json.loads(request.body)
     productId =data['productId']
-    action =data['action']
-    print('productId',productId)
-    print('action',action)
-
-    customer = request.user.customer
     product =Product.objects.get(id=productId)
+    
 
-    return JsonResponse("product",safe=False)
+
+    return render(request,'store/viewProdocut.html',{'product' : product})
     
 def register(request):
     data = cartData(request)    
