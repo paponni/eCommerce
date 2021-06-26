@@ -1,8 +1,14 @@
+from django.core import paginator
 from django.shortcuts import render,redirect
 from .models import *
 from django.http import JsonResponse
 from .utils import cartData, guestOrder
-from store.forms import UserRegisterForm
+from .forms import UserRegisterForm
+from django.conf import settings
+from django.core.mail import send_mail
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from datetime import datetime
+from django.views.generic import ListView
 
 import json
 def store(request) :
@@ -16,8 +22,15 @@ def store(request) :
         order ={'get_cart_items': 0 , 'get_cart_total':0}
         cartItems=order['get_cart_items']
 
-
-    products =Product.objects.all()
+    products =Product.objects.all().order_by('?')
+    page = request.GET.get('page')
+    p  = Paginator(products,2)
+    try:
+         products = p.page(page)
+    except PageNotAnInteger:
+         products = p.page(1)
+    except EmptyPage:
+         products = p.page(paginator.num_pages)
     context ={"products": products,'cartItems':cartItems}
 
 
@@ -104,7 +117,7 @@ def processOrder(request):
     order.save()
     
     if order.shipping == True:
-        ShippingAddress.objects.create(
+        ShippingAdress.objects.create(
         customer=customer,
         order=order,
         address=data['shipping']['address'],
@@ -131,8 +144,20 @@ def register(request):
     cartItems = data['cartItems']
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
+        
         if form.is_valid():
             myuser = form.save()
+            subject = 'creation de compte'
+            message = ( f'hello '+ form.cleaned_data.get('first_name') + f' ' + form.cleaned_data.get('last_name') +f' thank you for signing up to our website  . ' +  + f'\n' +
+                        f'here are your login information : ' + + f'\n' +
+                        f'username : ' + form.cleaned_data.get('username') + f'\n' + 
+                        f'password : ' + form.cleaned_data.get('password1') ) 
+
+            
+
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [form.cleaned_data.get('email'), ]
+            send_mail( subject, message, email_from, recipient_list )
             username = form.cleaned_data.get('username')
             Customer.objects.create(user = myuser, name = form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name'),email = form.cleaned_data.get('email'))
             return redirect('login')
@@ -143,13 +168,29 @@ def register(request):
 def search(request):
     data = cartData(request)
     cartItems = data['cartItems']
-    if request.method == "POST":
-        searched = request.POST.get('searched')
+    if request.method == "GET":
+        searched = request.GET.get('searched')
 
         if  searched :
+            
             product = Product.objects.filter(name__contains=searched)
-            return render(request,'store/search.html',{'searched' : searched,'products':product, 'cartItems':cartItems})
+            page = request.GET.get('page')
+            p  = Paginator(product,2)
+            try:
+               produit = p.page(page)
+            except PageNotAnInteger:
+               produit = p.page(1)
+            except EmptyPage:
+               produit = p.page(paginator.num_pages)
+
+
+            return render(request,'store/search.html',{'searched' : searched,'products':product, 'cartItems':cartItems,'produit':produit})
         else:
             return render(request,'store/search.html',{'searched' : searched,})
     else:
         return render(request,'store/search.html',{})
+
+
+
+
+

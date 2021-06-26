@@ -3,7 +3,7 @@
 {% block content %}
 {%    if searched %}
 <h1>you searched for : {{   searched  }} 
-    {% if not products%}  (no results were found) {% endif %}
+    {% if not produit%}  (no results were found) {% endif %}
 
 
 </h1>
@@ -17,7 +17,7 @@
 {% endif %}
 
 
-{%  if products %}
+{%  if produit %}
 
 <main>
     <div class="container">
@@ -42,7 +42,7 @@
 
       <!--Section: Products v.3-->
      <div class="row">
-    {% for product in products %}
+    {% for product in produit %}
     <div class="col-lg-4">
       <img class="thumbnail" src="{{product.imageURL}}">
       <div class="box-element product">
@@ -61,11 +61,13 @@
       <!--Section: Products v.3-->
 
       <!--Pagination-->
+</div>
+<br/>
 
-      
 
     </div>
   </main>
+  
 {% endif %}
 
 
