@@ -24,6 +24,7 @@ def store(request) :
 
     products =Product.objects.all().order_by('?')
     page = request.GET.get('page')
+    # a modifier lorque on a plus que 6 products
     p  = Paginator(products,2)
     try:
          products = p.page(page)
@@ -193,7 +194,7 @@ def search(request):
             
             product = Product.objects.filter(name__contains=searched)
             page = request.GET.get('page')
-            p  = Paginator(product,2)
+            p  = Paginator(product,6)
             try:
                produit = p.page(page)
             except PageNotAnInteger:

@@ -19,7 +19,7 @@
 
 {%  if produit %}
 
-<main>
+
     <div class="container">
 
       <!--Navbar-->
@@ -40,7 +40,7 @@
       </nav>
       <!--/.Navbar-->
 
-      <!--Section: Products v.3-->
+      <!--Section: produit v.3-->
      <div class="row">
     {% for product in produit %}
     <div class="col-lg-4">
@@ -58,7 +58,7 @@
     </div>
     {% endfor %}
   </div>
-      <!--Section: Products v.3-->
+      <!--Section: produit v.3-->
 
       <!--Pagination-->
 </div>
@@ -66,9 +66,38 @@
 
 
     </div>
-  </main>
   
+  
+    
+  <div class="navbar fixed-bottom" style="margin-left: auto;">
+    
+{% if produit.has_other_pages %}
+<nav aria-label="Page navigation example" style="margin:0 auto;">
+  
+  <ul class="pagination " >
+    {% if produit.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="{{ request.get_full_path }}&page={{ produit.previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      
+        <span class="sr-only">Previous</span>
+        {% endif %}
+      </a>
+    </li>
+    
+    <li class="page-item" style="margin-left: auto;"><a class="page-link" href="{{ request.get_full_path }}&page={{ produit.number }}">{{ produit.number }}</a></li>
+ 
+    {% if produit.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="{{ request.get_full_path }}&page={{ produit.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
 {% endif %}
-
-
+</div>
+{% endif %}
 {% endblock content %}
