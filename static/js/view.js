@@ -35,6 +35,7 @@ function viewProductFunc(productId,action){
     })
     .then((data)=>{
         console.log('data',data)
+        render(request, 'store/viewProduct.html')
         
     })
 }

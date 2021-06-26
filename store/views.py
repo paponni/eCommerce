@@ -1,5 +1,5 @@
 from django.core import paginator
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .models import *
 from django.http import JsonResponse
 from .utils import cartData, guestOrder
@@ -130,14 +130,32 @@ def processOrder(request):
 
 
 
-def viewProduct(request):
-    data= json.loads(request.body)
-    productId =data['productId']
-    product =Product.objects.get(id=productId)
+def viewProduct(request , id):
+
+    if request.user.is_authenticated :
+        customer = request.user.customer
+        order,created = Order.objects.get_or_create(customer=customer,complete=False)
+        items=order.order_item_set.all()
+        cartItems=order.get_cart_item
+    else :
+        items=[]
+        order ={'get_cart_items': 0 , 'get_cart_total':0}
+
+        cartItems=order['get_cart_items']
+    
+    product = get_object_or_404(Product,id =id)
+    context ={ 'product' : product ,'items':items,'order':order,'cartItems':cartItems}
+    return render(request , 'store/viewProduct.html',context)
+
+   
+
+
+
+    
     
 
 
-    return render(request,'store/viewProdocut.html',{'product' : product})
+    
     
 def register(request):
     data = cartData(request)    
