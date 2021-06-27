@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ecomme.herokuapp.com']
+ALLOWED_HOSTS = ['ensa-ecomme.herokuapp.com']
 
 
 # Application definition
