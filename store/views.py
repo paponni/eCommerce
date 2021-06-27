@@ -167,10 +167,10 @@ def register(request):
         if form.is_valid():
             myuser = form.save()
             subject = 'creation de compte'
-            message = ( f'hello '+ form.cleaned_data.get('first_name') + f' ' + form.cleaned_data.get('last_name') +f' thank you for signing up to our website  . ' +  + f'\n' +
-                        f'here are your login information : ' + + f'\n' +
-                        f'username : ' + form.cleaned_data.get('username') + f'\n' + 
-                        f'password : ' + form.cleaned_data.get('password1') ) 
+            message = ( 'hello '+ form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name') + ' thank you for signing up to our website  . ' + '\n' +
+                        'here are your login     information : ' + '\n' +
+                        'username : ' + form.cleaned_data.get('username') + '\n' + 
+                        'password : ' + form.cleaned_data.get('password1') ) 
 
             
 
