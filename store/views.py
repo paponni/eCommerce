@@ -166,7 +166,7 @@ def register(request):
         form = UserRegisterForm(request.POST)
         captcha_token = request.POST.get("g-recaptcha-response")
         cap_url = "https://www.google.com/recaptcha/api/siteverify"
-        cap_secret = "6LcpDV0bAAAAAFrVJROfb7hisUriuAI-YrtYIrnX"
+        cap_secret = "6LdqWF0bAAAAADqBd4yjANIDodBv8j4cDEjxJTh7"
         cap_data={
             "secret" : cap_secret,
             "response" : captcha_token
@@ -175,6 +175,7 @@ def register(request):
         }
         cap_server_response = requests.post(url=cap_url, data=cap_data)
         print(cap_server_response)
+
         if form.is_valid():
 
             myuser = form.save()
@@ -195,8 +196,7 @@ def register(request):
             Customer.objects.create(user = myuser, name = form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name'),email = form.cleaned_data.get('email'))
             return redirect('login')
     else:
-        
-                form = UserRegisterForm()
+        form = UserRegisterForm()
     return render(request, 'store/register.html', {'form': form})
 
 def search(request):
