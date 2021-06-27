@@ -2,24 +2,47 @@
 {% load static %}
 {% block content%}
 
+       <style>
+              #homeDetail{
+                     font-size: 22px;
+                     text-align: center;
 
+              }
+              th{
+                     width: 200px;
+              }
+             
+       </style>
 
-   
+   <div id="homeDetail">{{product.name}} Detail :</div> 
+   <hr>
 <div class="container" style="display :flex;">
        
               <div >
-                     <img style="width:400px;height:400px" src="{{product.imageURL}}" />
+                     <img style="width:400px;height:400px;" src="{{product.imageURL}}" />
               </div>
             <div>
-                     Name : <h3>{{product.name}}</h3>  
+                   <table class="table table-bordered">
+                            <tr>
+                                  <div class="labelTEXT">  <th>Name :</th></div>
+                                   <th>{{product.name}}</th>
+
+                            </tr>
+
+                            <tr>
+                                   <th>Price :</th>
+                                   <th>MAD {{product.price}}</th>
+                            </tr>
+
+                   </table>
+                     
                             
                      
                   
-                     Price :  <strong >MAD {{product.price}}</strong>
+                    
                      <button  data-product ="{{product.id}}" data-action="add"  class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
 
-
-              
+                     
        </div>                                      
                
                                     

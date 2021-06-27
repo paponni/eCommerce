@@ -17,6 +17,7 @@ class Product(models.Model):
     
     image = models.ImageField(null=True,blank=True)
     detail =models.TextField(null=True)
+    
 
     def __str__(self):
         return self.name
