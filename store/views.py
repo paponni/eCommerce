@@ -166,7 +166,7 @@ def register(request):
         form = UserRegisterForm(request.POST)
         captcha_token = request.POST.get("g-recaptcha-response")
         cap_url = "https://www.google.com/recaptcha/api/siteverify"
-        cap_secret = "6LdqWF0bAAAAADqBd4yjANIDodBv8j4cDEjxJTh7"
+        cap_secret = "6LdBaV0bAAAAAFH1DiloL7RWjcqnvsLHu7x4jd3l"
         cap_data={
             "secret" : cap_secret,
             "response" : captcha_token
