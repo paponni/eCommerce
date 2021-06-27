@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from datetime import datetime
 from django.views.generic import ListView
+import requests
 
 import json
 def store(request) :
@@ -22,7 +23,7 @@ def store(request) :
         order ={'get_cart_items': 0 , 'get_cart_total':0}
         cartItems=order['get_cart_items']
 
-    products =Product.objects.all().order_by('?')
+    products =Product.objects.all()
     page = request.GET.get('page')
     # a modifier lorque on a plus que 6 products
     p  = Paginator(products,2)
@@ -163,14 +164,27 @@ def register(request):
     cartItems = data['cartItems']
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
-        
+        captcha_token = request.POST.get("g-recaptcha-response")
+        cap_url = "https://www.google.com/recaptcha/api/siteverify"
+        cap_secret = "6LcpDV0bAAAAAFrVJROfb7hisUriuAI-YrtYIrnX"
+        cap_data={
+            "secret" : cap_secret,
+            "response" : captcha_token
+
+
+        }
+        cap_server_response = requests.post(url=cap_url, data=cap_data)
+        print(cap_server_response)
         if form.is_valid():
+
             myuser = form.save()
             subject = 'creation de compte'
+
             message = ( 'hello '+ form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name') + ' thank you for signing up to our website  . ' + '\n' +
                         'here are your login     information : ' + '\n' +
                         'username : ' + form.cleaned_data.get('username') + '\n' + 
                         'password : ' + form.cleaned_data.get('password1') ) 
+
 
             
 
@@ -181,7 +195,8 @@ def register(request):
             Customer.objects.create(user = myuser, name = form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name'),email = form.cleaned_data.get('email'))
             return redirect('login')
     else:
-        form = UserRegisterForm()
+        
+                form = UserRegisterForm()
     return render(request, 'store/register.html', {'form': form})
 
 def search(request):
