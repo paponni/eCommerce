@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
-    'store.apps.StoreConfig'
+    'store.apps.StoreConfig',
+    'nocaptcha_recaptcha'
 ]
 
 MIDDLEWARE = [
@@ -148,4 +149,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'ensa.commerce@gmail.com'
 EMAIL_HOST_PASSWORD = 'azerty.qwerty'
+NORECAPTCHA_SITE_KEY = '<the Google provided site_key>'
+NORECAPTCHA_SECRET_KEY = '<the Google provided secret_key>'
 django_heroku.settings(locals())
