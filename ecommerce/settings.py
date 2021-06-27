@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+import django_heroku
 
 from pathlib import Path
 
@@ -147,3 +148,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'ensa.commerce@gmail.com'
 EMAIL_HOST_PASSWORD = 'azerty.qwerty'
+django_heroku.settings(locals())
