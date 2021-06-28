@@ -11,10 +11,9 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from datetime import datetime
 from django.views.generic import ListView
 import requests
-<<<<<<< HEAD
+
 from .forms import UserRegisterForm,UserUpdateForm
-=======
->>>>>>> master
+
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 

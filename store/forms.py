@@ -36,13 +36,13 @@ class UserUpdateForm(forms.ModelForm):
         return email
     class Meta:
         model = User
-<<<<<<< HEAD
+
         fields = ['username','email','first_name','last_name']
-=======
+
         fields = ['username','email','first_name','last_name']
 
 class CustomerUpdateForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ['user','name','email']
->>>>>>> master
+
