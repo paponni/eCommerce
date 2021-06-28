@@ -43,11 +43,14 @@ const csrftoken = getCookie('csrftoken');
               <a class="nav-link navbar-brand" href="{% url 'store' %}">Store</a>
             </li>
             <li>
-            <form action="{% url 'search' %}" method="GET" >
-              {% csrf_token %}
-               <input type="text" name="searched"
-              value="{{request.GET.searched}}"
-              placeholder="Search product">
+              <div class="input-group">
+                <div class="form-outline">
+                   <input type="text" name="searched" class="form-control"
+                  value="{{request.GET.searched}}"
+                  placeholder="Search product">
+                </div>
+                
+              </div>
               
             </form>
           </li>

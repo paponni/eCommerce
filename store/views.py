@@ -10,6 +10,9 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from datetime import datetime
 from django.views.generic import ListView
 import requests
+from .forms import UserRegisterForm,UserUpdateForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 import json
 def store(request) :
@@ -181,6 +184,7 @@ def register(request):
             send_mail( subject, message, email_from, recipient_list )
             username = form.cleaned_data.get('username')
             Customer.objects.create(user = myuser, name = form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name'),email = form.cleaned_data.get('email'))
+            messages.success(request,'account succefully created!')
             return redirect('login')
     else:
         
@@ -213,6 +217,38 @@ def search(request):
         return render(request,'store/search.html',{})
 
 
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST,instance=request.user)
+        customer = Customer.objects.get(email=request.user.email)
+       
+        if u_form.is_valid()  :
+            
+            u_form.save()
+            user = User.objects.get(username=u_form.cleaned_data.get('username'))
+            
+            customer.user = user
+            customer.name = u_form.cleaned_data.get('first_name') + ' ' + u_form.cleaned_data.get('last_name')
+            customer.email = u_form.cleaned_data.get('email')
+            customer.save()
+
+           
+            messages.success(request,'Your account has been updated')
+            return redirect('profile')
+
+
+    else :
+        u_form = UserUpdateForm(instance=request.user)
+      
+    
+    context = {
+      'u_form': u_form,
+      
+
+
+    }
+    return render(request,'store/profile.html',context)
 
 
 
