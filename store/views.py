@@ -164,28 +164,15 @@ def register(request):
     cartItems = data['cartItems']
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
-        captcha_token = request.POST.get("g-recaptcha-response")
-        cap_url = "https://www.google.com/recaptcha/api/siteverify"
-        cap_secret = "6LdBaV0bAAAAAFH1DiloL7RWjcqnvsLHu7x4jd3l"
-        cap_data={
-            "secret" : cap_secret,
-            "response" : captcha_token
-
-
-        }
-        cap_server_response = requests.post(url=cap_url, data=cap_data)
-        print(cap_server_response)
-
+       
         if form.is_valid():
 
             myuser = form.save()
             subject = 'creation de compte'
-
-            message = ( 'hello '+ form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name') + ' thank you for signing up to our website  . ' + '\n' +
-                        'here are your login     information : ' + '\n' +
-                        'username : ' + form.cleaned_data.get('username') + '\n' + 
-                        'password : ' + form.cleaned_data.get('password1') ) 
-
+            message = ( f'hello '+ form.cleaned_data.get('first_name') + f' ' + form.cleaned_data.get('last_name') +f' thank you for signing up to our website  . ' +   f'\n' +
+                        f'here are your login information : ' +  f'\n' +
+                        f'username : ' + form.cleaned_data.get('username') + f'\n' + 
+                        f'password : ' + form.cleaned_data.get('password1') ) 
 
             
 
@@ -196,6 +183,7 @@ def register(request):
             Customer.objects.create(user = myuser, name = form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name'),email = form.cleaned_data.get('email'))
             return redirect('login')
     else:
+        
         form = UserRegisterForm()
     return render(request, 'store/register.html', {'form': form})
 
