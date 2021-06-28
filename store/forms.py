@@ -36,6 +36,12 @@ class UserUpdateForm(forms.ModelForm):
         return email
     class Meta:
         model = User
+<<<<<<< HEAD
+=======
+
+        fields = ['username','email','first_name','last_name']
+
+>>>>>>> 9e668c9517691bb847ae67f1e88e12d5d24747ec
         fields = ['username','email','first_name','last_name']
 
 
