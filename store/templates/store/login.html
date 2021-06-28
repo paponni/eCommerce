@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
+<<<<<<< HEAD
 {% if messages %}
 {% for message in messages %}
   <div class="alert alert-{{ message.tags }}">
@@ -9,6 +10,11 @@
   </div>
 {% endfor %}
 {% endif %}
+=======
+{% if user.is_authenticated %}
+              <h6>malheuresement cette page n'est pas disponible</h6>
+            {% else %}
+>>>>>>> master
 
             <div class="content-section">
                 <form method="POST">
@@ -33,5 +39,5 @@
                 </div>
             </div>
             
-    
+            {% endif %}
 {% endblock content %}

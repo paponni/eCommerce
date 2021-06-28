@@ -1,16 +1,20 @@
+from django.contrib.auth.forms import UsernameField
 from django.core import paginator
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import *
 from django.http import JsonResponse
 from .utils import cartData, guestOrder
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm,CustomerUpdateForm,UserUpdateForm
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from datetime import datetime
 from django.views.generic import ListView
 import requests
+<<<<<<< HEAD
 from .forms import UserRegisterForm,UserUpdateForm
+=======
+>>>>>>> master
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -43,40 +47,26 @@ def store(request) :
     return render(request, 'store/store.html',context)
 
 
-def cart(request) :
-    if request.user.is_authenticated :
-        customer = request.user.customer
-        order,created = Order.objects.get_or_create(customer=customer,complete=False)
-        items=order.order_item_set.all()
-        cartItems=order.get_cart_item
-    else :
-        items=[]
-        order ={'get_cart_items': 0 , 'get_cart_total':0}
+def cart(request):
+	data = cartData(request)
 
-        cartItems=order['get_cart_items']
-    
-    context ={'items':items,'order':order,'cartItems':cartItems}
-    return render(request, 'store/cart.html',context)
+	cartItems = data['cartItems']
+	order = data['order']
+	items = data['items']
+
+	context = {'items':items, 'order':order, 'cartItems':cartItems}
+	return render(request, 'store/cart.html', context)
 
 
-def checkout(request) :
-    
-    if request.user.is_authenticated :
-        
-        customer = request.user.customer
-        order,created = Order.objects.get_or_create(customer=customer,complete=False)
-        items=order.order_item_set.all()
-        cartItems=order.get_cart_item
+def checkout(request):
+	data = cartData(request)
+	
+	cartItems = data['cartItems']
+	order = data['order']
+	items = data['items']
 
-       
-    else :
-        items=[]
-        order ={'get_cart_items': 0 , 'get_cart_total':0}
-        cartItems=order['get_cart_items']
-    
-
-    context ={'items':items,'order':order,'cartItems':cartItems}
-    return render(request, 'store/checkout.html',context)
+	context = {'items':items, 'order':order, 'cartItems':cartItems}
+	return render(request, 'store/checkout.html', context)
 
 
 def updateItem(request):
@@ -215,6 +205,40 @@ def search(request):
             return render(request,'store/search.html',{'searched' : searched,})
     else:
         return render(request,'store/search.html',{})
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST,instance=request.user)
+        customer = Customer.objects.get(email=request.user.email)
+       
+        if u_form.is_valid()  :
+            
+            u_form.save()
+            user = User.objects.get(username=u_form.cleaned_data.get('username'))
+            
+            customer.user = user
+            customer.name = u_form.cleaned_data.get('first_name') + ' ' + u_form.cleaned_data.get('last_name')
+            customer.email = u_form.cleaned_data.get('email')
+            customer.save()
+
+           
+            messages.success(request,'Your account has been updated')
+            return redirect('profile')
+
+
+    else :
+        u_form = UserUpdateForm(instance=request.user)
+        c_form = CustomerUpdateForm(instance=request.user.customer)
+    
+    context = {
+      'u_form': u_form,
+      
+
+
+    }
+    return render(request,'store/profile.html',context)
+
 
 
 @login_required

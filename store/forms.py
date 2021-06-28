@@ -2,7 +2,10 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
+from django.forms import fields
 from nocaptcha_recaptcha.fields import NoReCaptchaField
+from .models import Customer;
+
 
 
 class UserRegisterForm(UserCreationForm):
@@ -33,4 +36,13 @@ class UserUpdateForm(forms.ModelForm):
         return email
     class Meta:
         model = User
+<<<<<<< HEAD
         fields = ['username','email','first_name','last_name']
+=======
+        fields = ['username','email','first_name','last_name']
+
+class CustomerUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['user','name','email']
+>>>>>>> master
