@@ -2,7 +2,7 @@ from django.core import paginator
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import *
 from django.http import JsonResponse
-from .utils import cartData, guestOrder
+from .utils import cookieCart,cartData, guestOrder
 from .forms import UserRegisterForm
 from django.conf import settings
 from django.core.mail import send_mail
@@ -13,15 +13,10 @@ import requests
 
 import json
 def store(request) :
-    if request.user.is_authenticated :
-        customer = request.user.customer
-        order,created = Order.objects.get_or_create(customer=customer,complete=False)
-        cartItems = order.get_cart_item
+    data=cartData(request)
+    cartItems=data['cartItems']
+    
        
-    else :
-        items=[]
-        order ={'get_cart_items': 0 , 'get_cart_total':0}
-        cartItems=order['get_cart_items']
 
     products =Product.objects.all()
     page = request.GET.get('page')
@@ -41,35 +36,22 @@ def store(request) :
 
 
 def cart(request) :
-    if request.user.is_authenticated :
-        customer = request.user.customer
-        order,created = Order.objects.get_or_create(customer=customer,complete=False)
-        items=order.order_item_set.all()
-        cartItems=order.get_cart_item
-    else :
-        items=[]
-        order ={'get_cart_items': 0 , 'get_cart_total':0}
+  
+    data=cartData(request)
+    cartItems=data['cartItems']
+    order=data['order']
+    items=data['items']
 
-        cartItems=order['get_cart_items']
-    
     context ={'items':items,'order':order,'cartItems':cartItems}
     return render(request, 'store/cart.html',context)
 
 
 def checkout(request) :
     
-    if request.user.is_authenticated :
-        
-        customer = request.user.customer
-        order,created = Order.objects.get_or_create(customer=customer,complete=False)
-        items=order.order_item_set.all()
-        cartItems=order.get_cart_item
-
-       
-    else :
-        items=[]
-        order ={'get_cart_items': 0 , 'get_cart_total':0}
-        cartItems=order['get_cart_items']
+    data=cartData(request)
+    cartItems=data['cartItems']
+    order=data['order']
+    items=data['items']
     
 
     context ={'items':items,'order':order,'cartItems':cartItems}
@@ -166,7 +148,7 @@ def register(request):
         form = UserRegisterForm(request.POST)
         captcha_token = request.POST.get("g-recaptcha-response")
         cap_url = "https://www.google.com/recaptcha/api/siteverify"
-        cap_secret = "6LcpDV0bAAAAAFrVJROfb7hisUriuAI-YrtYIrnX"
+        cap_secret = "6LdBaV0bAAAAAFH1DiloL7RWjcqnvsLHu7x4jd3l"
         cap_data={
             "secret" : cap_secret,
             "response" : captcha_token
@@ -175,6 +157,7 @@ def register(request):
         }
         cap_server_response = requests.post(url=cap_url, data=cap_data)
         print(cap_server_response)
+
         if form.is_valid():
 
             myuser = form.save()
@@ -195,8 +178,7 @@ def register(request):
             Customer.objects.create(user = myuser, name = form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name'),email = form.cleaned_data.get('email'))
             return redirect('login')
     else:
-        
-                form = UserRegisterForm()
+        form = UserRegisterForm()
     return render(request, 'store/register.html', {'form': form})
 
 def search(request):

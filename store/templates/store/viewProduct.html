@@ -2,49 +2,102 @@
 {% load static %}
 {% block content%}
 
+
        <style>
+
+              @import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@1,300&family=Quicksand:wght@700&display=swap');
               #homeDetail{
                      font-size: 22px;
                      text-align: center;
 
               }
               th{
-                     width: 200px;
+                     width: 500px;
               }
-             
+              .textLabel{
+                     font-weight: bold;
+                     font-size: 33px;
+                     font-family: 'Open Sans Condensed', sans-serif;                     
+              }
+              .price{
+                
+                     color : rgb(42, 183, 226)
+              }
+              .description{
+
+                     font-family: Verdana, Geneva, Tahoma, sans-serif;
+                     font-size: 22px;
+                     font-weight: bold;
+                     
+              }
+             .content{
+                    padding: 7px;
+                    
+             }
+             #homeDetail{
+              font-family: 'Quicksand', sans-serif;
+             }
+             .container-description{
+                    padding: 12px;
+                    background-color: rgb(248, 248, 248);
+                    width: 600px;
+             }
+             .btnView{
+                    width: 70%;
+             }
        </style>
 
    <div id="homeDetail">{{product.name}} Detail :</div> 
    <hr>
 <div class="container" style="display :flex;">
        
-              <div >
-                     <img style="width:400px;height:400px;" src="{{product.imageURL}}" />
+       <div class="row">
+              <div class="col-md-6">
+                     <img style="width:400px;height:400px;margin:12px;" src="{{product.imageURL}}" class="border" />
+                     <div class="row">
+                            {% for pi in product.productimage_set.all %}
+                                   <div class="col-md-6">
+                                          <img src="{{pi.image.url}}" style="width:200px;height:200px; border
+                                          :1px solid rgb(180, 180, 230);">
+                                   </div>
+
+                            {% endfor %}
+
+                     </div>
               </div>
-            <div>
-                   <table class="table table-bordered">
-                            <tr>
-                                  <div class="labelTEXT">  <th>Name :</th></div>
-                                   <th>{{product.name}}</th>
-
-                            </tr>
-
-                            <tr>
-                                   <th>Price :</th>
-                                   <th>MAD {{product.price}}</th>
-                            </tr>
-
-                   </table>
-                     
+            <div class="col-md-6">
+                   
                             
+                                 <label for="" class="textLabel">   {{product.name}} </label> <br>
+
+                                 
+
+                            
+
+                          
+                              <span class="price"> MAD {{product.price}}</span>     <br>
+                                
+                           
+                     <div class="container-description">
+                                   <label for="" class="description">Description</label> : 
+                                   <div class="content">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae fuga possimus molestias! Ipsam aliquam modi iusto enim iste, consectetur aspernatur. Pariatur ab animi ducimus cumque tenetur temporibus cupiditate in! Asperiores?
+
+                                   </div><br>
+                                   <button  data-product ="{{product.id}}" data-action="add"  class="btn btn-outline-primary add-btn update-cart btnView">Add to Cart</button>
+
+                     </div>
+       
+                   
+                     
+                           
                      
                   
                     
-                     <button  data-product ="{{product.id}}" data-action="add"  class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
 
                      
        </div>                                      
                
+</div>
                                     
 
                             
