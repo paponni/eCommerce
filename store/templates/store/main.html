@@ -71,19 +71,8 @@ console.log('Cart:', cart)
               <a class="nav-link navbar-brand" href="{% url 'store' %}">Store</a>
             </li>
             <li>
-<<<<<<< HEAD
-              <div class="input-group">
-                <div class="form-outline">
-                   <input type="text" name="searched" class="form-control"
-                  value="{{request.GET.searched}}"
-                  placeholder="Search product">
-                </div>
-                
-              </div>
-=======
             <form action="{% url 'search' %}" method="GET" >
               {% csrf_token %}
->>>>>>> master
               
               <div class="input-group">
                 <div class="form-outline">
