@@ -23,11 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = 'vgfggggf'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.environ['DEBUG_VALUE']=='True')
+DEBUG = True
 
 ALLOWED_HOSTS = ['ensa-ecomme.herokuapp.com']
 
@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
-    'store.apps.StoreConfig'
+    'store.apps.StoreConfig',
+    'nocaptcha_recaptcha'
 ]
 
 MIDDLEWARE = [
@@ -148,4 +149,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'ensa.commerce@gmail.com'
 EMAIL_HOST_PASSWORD = 'azerty.qwerty'
+
+NORECAPTCHA_SITE_KEY = '<the Google provided site_key>'
+NORECAPTCHA_SECRET_KEY = '<the Google provided secret_key>'
 django_heroku.settings(locals())

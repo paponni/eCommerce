@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Customer(models.Model) :
     user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True)
     name = models.CharField(max_length=200,null=True)
-    email = models.CharField(max_length=200,null=True)
+    email = models.CharField(max_length=200,null=True,unique=True)
 
     def __str__(self):
         return self.name
@@ -17,7 +17,6 @@ class Product(models.Model):
     
     image = models.ImageField(null=True,blank=True)
     detail =models.TextField(null=True)
-    
 
     def __str__(self):
         return self.name
