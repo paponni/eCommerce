@@ -8,7 +8,7 @@ class Customer(models.Model) :
     email = models.CharField(max_length=200,null=True)
 
     def __str__(self):
-        return self.name
+        return self.name or ''
 
 
 class Product(models.Model):
@@ -20,7 +20,7 @@ class Product(models.Model):
     
 
     def __str__(self):
-        return self.name
+        return self.name or ''
 
     @property
     def imageURL(self):
@@ -38,13 +38,20 @@ class Order(models.Model):
 
 
     def __str__(self):
-        return self.transaction_id
+        return self.transaction_id or ''
 
     @property
     def get_cart_total(self):
         orderitems=self.order_item_set.all()    
         total = sum([item.get_total for item in orderitems ])
         return total
+    @property
+    def shipping(self):
+        shipping = False
+        orderitems = self.order_item_set.all()
+        for i in orderitems:
+            shipping = True
+        return shipping
 
     @property
     def get_cart_item(self):
@@ -59,7 +66,7 @@ class Order_Item(models.Model):
     date_added= models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.product.name
+        return self.product.name or ''
 
     @property
     def get_total(self):
@@ -69,7 +76,7 @@ class Order_Item(models.Model):
 class ShippingAdress(models.Model):
         customer = models.ForeignKey(Customer, on_delete=models.SET_NULL,null=True,blank=True)
         order =models.ForeignKey(Order, on_delete=models.SET_NULL,null=True,blank=True)
-        adress = models.CharField(max_length=200,null=True)
+        address = models.CharField(max_length=200,null=True)
         city = models.CharField(max_length=200,null=True)
         state = models.CharField(max_length=200,null=True)
         zipcode = models.CharField(max_length=200,null=True)
@@ -78,7 +85,7 @@ class ShippingAdress(models.Model):
 
 
         def __str__(self):
-            return self.adress
+            return self.address or ''
 
 
  
