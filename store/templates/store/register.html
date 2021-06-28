@@ -1,7 +1,9 @@
 {% extends "store/main.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-
+{% if user.is_authenticated %}
+              <h6>malheuresement cette page n'est pas disponible</h6>
+            {% else %}
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
@@ -20,5 +22,5 @@
             </small>
         </div>
     </div>
-    
+    {% endif %}
 {% endblock content %}

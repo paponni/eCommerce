@@ -2,7 +2,9 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
-
+{% if user.is_authenticated %}
+              <h6>malheuresement cette page n'est pas disponible</h6>
+            {% else %}
 
             <div class="content-section">
                 <form method="POST">
@@ -27,5 +29,5 @@
                 </div>
             </div>
             
-    
+            {% endif %}
 {% endblock content %}
