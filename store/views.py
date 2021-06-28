@@ -3,28 +3,28 @@ from django.core import paginator
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import *
 from django.http import JsonResponse
-from .utils import cartData, guestOrder
-from .forms import UserRegisterForm,CustomerUpdateForm,UserUpdateForm
+from .utils import cookieCart,cartData, guestOrder
+from .forms import UserRegisterForm
+
+from .forms import CustomerUpdateForm,UserUpdateForm
+
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from datetime import datetime
 from django.views.generic import ListView
 import requests
+
+
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 import json
 def store(request) :
-    if request.user.is_authenticated :
-        customer = request.user.customer
-        order,created = Order.objects.get_or_create(customer=customer,complete=False)
-        cartItems = order.get_cart_item
+    data=cartData(request)
+    cartItems=data['cartItems']
+    
        
-    else :
-        items=[]
-        order ={'get_cart_items': 0 , 'get_cart_total':0}
-        cartItems=order['get_cart_items']
 
     products =Product.objects.all()
     page = request.GET.get('page')
@@ -52,6 +52,7 @@ def cart(request):
 
 	context = {'items':items, 'order':order, 'cartItems':cartItems}
 	return render(request, 'store/cart.html', context)
+
 
 
 def checkout(request):
@@ -129,10 +130,12 @@ def viewProduct(request , id):
         items=order.order_item_set.all()
         cartItems=order.get_cart_item
     else :
-        items=[]
-        order ={'get_cart_items': 0 , 'get_cart_total':0}
+        data = cartData(request)
+        cartItems = data['cartItems']
+        order = data['order']
+        items = data['items']
 
-        cartItems=order['get_cart_items']
+
     
     product = get_object_or_404(Product,id =id)
     context ={ 'product' : product ,'items':items,'order':order,'cartItems':cartItems}
@@ -170,6 +173,7 @@ def register(request):
             send_mail( subject, message, email_from, recipient_list )
             username = form.cleaned_data.get('username')
             Customer.objects.create(user = myuser, name = form.cleaned_data.get('first_name') + ' ' + form.cleaned_data.get('last_name'),email = form.cleaned_data.get('email'))
+            messages.success(request,'account succefully created!')
             return redirect('login')
     else:
         
@@ -236,6 +240,38 @@ def profile(request):
 
 
 
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST,instance=request.user)
+        customer = Customer.objects.get(email=request.user.email)
+       
+        if u_form.is_valid()  :
+            
+            u_form.save()
+            user = User.objects.get(username=u_form.cleaned_data.get('username'))
+            
+            customer.user = user
+            customer.name = u_form.cleaned_data.get('first_name') + ' ' + u_form.cleaned_data.get('last_name')
+            customer.email = u_form.cleaned_data.get('email')
+            customer.save()
+
+           
+            messages.success(request,'Your account has been updated')
+            return redirect('profile')
+
+
+    else :
+        u_form = UserUpdateForm(instance=request.user)
+      
+    
+    context = {
+      'u_form': u_form,
+      
+
+
+    }
+    return render(request,'store/profile.html',context)
 
 
 

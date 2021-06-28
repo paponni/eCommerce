@@ -2,9 +2,25 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9e668c9517691bb847ae67f1e88e12d5d24747ec
+{% if messages %}
+{% for message in messages %}
+  <div class="alert alert-{{ message.tags }}">
+    {{ message }}
+  </div>
+{% endfor %}
+{% endif %}
+
 {% if user.is_authenticated %}
               <h6>malheuresement cette page n'est pas disponible</h6>
             {% else %}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9e668c9517691bb847ae67f1e88e12d5d24747ec
 
             <div class="content-section">
                 <form method="POST">
