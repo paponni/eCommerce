@@ -83,7 +83,7 @@ for(var i=0 ; i<viewProduct.length ;i++){
         var productId = this.dataset.product
         var action= this.dataset.action
         console.log('productId',productId,'action',action)
-        console.log('User',User)
+       // console.log('User',User)
 
         if(User == 'AnonymousUser'){
             console.log("user is not logged")
