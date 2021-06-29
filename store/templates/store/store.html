@@ -11,7 +11,7 @@
 
                 <img class="thumbnail" src="{{ product.imageURL }}" >
                 <div class="box-element-homepage product">
-                        <h6><strong>{{product.name}}</strong></h6>
+                        <h6 style="margin-top: 8px; font-size: 20px;"><strong style="font-weight: bolder;">{{product.name}}</strong></h6>
                         <hr>
                         <button  data-product ="{{product.id}}" data-action="add"  class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
                         <a style="text-decoration: none;" href="{% url 'viewProduct' product.id %}" ><button  class="btn btn-outline-info viewProduct" >View</button></a>

@@ -29,7 +29,7 @@ SECRET_KEY = 'vgfggggf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ensa-ecomme.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -151,6 +151,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'ensa.commerce@gmail.com'
 EMAIL_HOST_PASSWORD = 'azerty.qwerty'
 
-NORECAPTCHA_SITE_KEY = '<the Google provided site_key>'
-NORECAPTCHA_SECRET_KEY = '<the Google provided secret_key>'
+NORECAPTCHA_SITE_KEY = '6LdDPmQbAAAAALnhcOxyUfOpOh-lc-4abkkSoYhi'
+NORECAPTCHA_SECRET_KEY = '6LdDPmQbAAAAABT9sF6ZU1OlfZ0dBWU4NWbPj4No'
 django_heroku.settings(locals())
