@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 {%    if searched %}
-<h1>you searched for : {{   searched  }} 
+<h1 style="margin-top: 15px;">you searched for : {{   searched  }} 
     {% if not produit%}  (no results were found) {% endif %}
 
 
@@ -22,28 +22,13 @@
 
     <div class="container">
 
-      <!--Navbar-->
-      <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
-
-        <!-- Navbar brand -->
       
-
-        <!-- Collapse button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-          aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Collapsible content -->
-        
-
-      </nav>
       <!--/.Navbar-->
 
       <!--Section: produit v.3-->
      <div class="row">
     {% for product in produit %}
-    <div class="col-lg-4">
+    <div class="col-lg-4" style="margin-top: 50px;">
       <img class="thumbnail" src="{{product.imageURL}}">
       <div class="box-element product">
         <h6><strong>{{product.name}}</strong></h6>

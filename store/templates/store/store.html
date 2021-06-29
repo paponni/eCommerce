@@ -7,15 +7,15 @@
     <div class="row">
 
         {% for product in products %}
-        <div class="col-lg-4">
+        <div class="col-lg-4" style="margin-top: 50px;">
 
                 <img class="thumbnail" src="{{ product.imageURL }}" >
                 <div class="box-element-homepage product">
                         <h6><strong>{{product.name}}</strong></h6>
                         <hr>
                         <button  data-product ="{{product.id}}" data-action="add"  class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
-                        <button  class="btn btn-outline-success viewProduct" ><a style="text-decoration: none;" href="{% url 'viewProduct' product.id %}">View</a></button>
-                            <h4 style="display: inline-block; "><strong>${{product.price|floatformat:2}}</strong></h4>
+                        <a style="text-decoration: none;" href="{% url 'viewProduct' product.id %}" ><button  class="btn btn-outline-info viewProduct" >View</button></a>
+                            <h4 style="display: inline-block;  float: right"><strong>${{product.price|floatformat:2}}</strong></h4>
                 </div>
         </div>
         {% endfor %}

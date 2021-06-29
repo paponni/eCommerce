@@ -109,3 +109,14 @@ h1,h2,h3,h4,h5,h6{
 *, ::after, ::before {
     box-sizing: border-box;
 }
+.col-lg-4, .col-lg-6, .col-lg-8, .col-lg-12 {
+    margin-top: 10px;
+}
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
