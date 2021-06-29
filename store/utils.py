@@ -9,16 +9,16 @@ def cookieCart(request):
 	
 	print('Cart :',cart)
 	items=[]
-	order ={'get_cart_items':0 , 'get_cart_total':0}
+	order ={'get_cart_item':0 , 'get_cart_total':0}
 
-	cartItems=order['get_cart_items']
+	cartItems=order['get_cart_item']
 	for i in cart:
 		try:            
 			cartItems+=cart[i]["quantity"]
 			product = Product.objects.get(id=i)
 			total = (product.price * cart[i]['quantity'])
 			order['get_cart_total']+=total;
-			order['get_cart_items']+=cart[i]["quantity"]
+			order['get_cart_item']+=cart[i]["quantity"]
 
 			item={
 				'product': {
