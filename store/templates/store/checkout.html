@@ -4,10 +4,10 @@
 {% block content %}
 
 
-        <div class="row">
-            <div class="col-gl-6">
-                <div class="box-element" id="form-wrapper">
-                    <form action="" id="form">
+        <div class="row" style="display: flex;justify-content: space-between;">
+            <div class="col-12 col-md-8" >
+                <div class="box-element" id="form-wrapper" >
+                    <form  id="form">
                         <div id="user-info">
                             <div class="form-field">
                                 <input required class="form-control" type="text" name="name" placeholder="Name..">
@@ -55,7 +55,7 @@
             </div>
     
 
-            <div class="col-gl-6">
+            <div class="col-6 col-md-4" style="height: 373px;">
                 <div class="box-element" >
                     <a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
                 <hr>
